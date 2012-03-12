@@ -107,6 +107,9 @@
 
 		public function logout(){
 			if(is_null($this->cookie)) $this->initialiseCookie();
+			
+			// REMOVE TEMP COOKIE
+			setcookie("SymMem", "", time() - 3600, '/');
 
 			$this->cookie->expire();
 		}
