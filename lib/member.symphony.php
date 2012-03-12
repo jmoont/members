@@ -241,6 +241,9 @@
 
 					$this->cookie->set('password', $data['password']);
 
+					// CREATE TEMP COOKIE
+					setcookie("SymMem", $id, 0, '/');
+
 					self::$isLoggedIn = true;
 
 				} catch(Exception $ex){
@@ -273,6 +276,16 @@
 			}
 
 			if($id = $this->findMemberIDFromCredentials($data)) {
+				
+				// CHECK FOR TEMP COOKIE
+				if($_COOKIE["SymMem"] == $id){
+					// Cookie OK
+				} else {
+					// Cookie Gone
+					$this->logout();
+					return false;
+				}
+				
 				self::$member_id = $id;
 				self::$isLoggedIn = true;
 				return true;
